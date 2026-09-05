@@ -1,1301 +1,1110 @@
 <!DOCTYPE html>
 <html lang="tr" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexERP Enterprise - Kurumsal Kaynak Planlama & Yönetim Platformu</title>
-    
-    <!-- Tailwind CSS CDN -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enterprise ERP | Kurumsal & On-Premise ERP Çözümleri</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Lucide Icons CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- Google Fonts Inter & Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind Custom Configuration -->
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        navy: {
-                            950: '#060913',
-                            900: '#0b1120',
-                            850: '#10182b',
-                            800: '#17223b',
-                            700: '#1f2d4d',
-                            600: '#2a3d66',
-                        },
-                        accent: {
-                            blue: '#2563eb',
-                            emerald: '#059669',
-                            cyan: '#0891b2',
-                            indigo: '#4f46e5',
-                        }
-                    },
-                    boxShadow: {
-                        'glow-blue': '0 0 50px -10px rgba(37, 99, 235, 0.25)',
-                        'glow-emerald': '0 0 50px -10px rgba(5, 150, 105, 0.25)',
-                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+            colors: {
+              brand: {
+                50: "#f0f7ff",
+                100: "#e0effe",
+                500: "#0284c7",
+                600: "#0265d2",
+                700: "#0369a1",
+                900: "#0c4a6e",
+              },
+              navy: {
+                800: "#0b1329",
+                900: "#050a18",
+                950: "#02050e",
+              },
+            },
+          },
+        },
+      };
     </script>
-
     <style>
-        body {
-            background-color: #060913;
-            color: #f1f5f9;
-            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
-
-        .glass-panel {
-            background: rgba(16, 24, 43, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .glass-panel-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .glass-panel-hover:hover {
-            background: rgba(23, 34, 59, 0.85);
-            border-color: rgba(59, 130, 246, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px -10px rgba(37, 99, 235, 0.2);
-        }
-
-        .text-gradient {
-            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #60a5fa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .text-gradient-accent {
-            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 50%, #34d399 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .border-gradient {
-            border-image: linear-gradient(to right, rgba(59, 130, 246, 0.5), rgba(16, 185, 129, 0.2)) 1;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #060913;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1f2d4d;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #2a3d66;
-        }
-
-        .active-tab {
-            border-color: #3b82f6;
-            background: rgba(37, 99, 235, 0.15);
-            color: #ffffff;
-        }
+      .glass-card {
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .glow-effect {
+        box-shadow: 0 0 50px -12px rgba(2, 132, 199, 0.3);
+      }
     </style>
-</head>
-<body class="antialiased selection:bg-blue-600 selection:text-white">
-
-    <header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Brand Logo -->
-                <a href="#" class="flex items-center space-x-3 group">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-emerald-500 flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:scale-105 transition-transform">
-                        <i data-lucide="layers" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-2xl font-black tracking-tight text-white flex items-center gap-1.5">
-                            Nex<span class="text-blue-500">ERP</span>
-                            <span class="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/30 text-blue-400">Enterprise</span>
-                        </span>
-                        <span class="text-[10px] text-slate-400 font-mono tracking-wider -mt-1">ISO 27001 READY</span>
-                    </div>
-                </a>
-
-                <!-- Navigation Links -->
-                <nav class="hidden lg:flex items-center space-x-8 text-xs font-semibold uppercase tracking-wider text-slate-300">
-                    <a href="#hero" class="hover:text-blue-400 transition-colors">Ana Sayfa</a>
-                    <a href="#modules" class="hover:text-blue-400 transition-colors">Modüller (11)</a>
-                    <a href="#catalog" class="hover:text-blue-400 transition-colors">Tüm Özellik Listesi</a>
-                    <a href="#security" class="hover:text-blue-400 transition-colors">Güvenlik & RBAC</a>
-                    <a href="#roi" class="hover:text-blue-400 transition-colors">ROI Analizi</a>
-                    <a href="#pricing" class="hover:text-blue-400 transition-colors">Kurumsal Paketler</a>
-                </nav>
-
-                <!-- Action Button -->
-                <div class="hidden sm:flex items-center space-x-4">
-                    <button onclick="openDemoModal()" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 transition-all shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 transform hover:-translate-y-0.5 border border-blue-400/30 flex items-center gap-2">
-                        <i data-lucide="calendar" class="w-4 h-4"></i>
-                        <span>Demo Talebi Oluştur</span>
-                    </button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="lg:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="p-2 text-slate-400 hover:text-white focus:outline-none">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
-                    </button>
-                </div>
-            </div>
+  </head>
+  <body
+    class="bg-navy-950 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white"
+  >
+    <!-- Header Navigation -->
+    <header
+      class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-slate-800/80"
+    >
+      <div
+        class="max-w-7xl mx-m py-4 px-4 sm:px-6 lg:px-8 flex items-center justify-between mx-auto"
+      >
+        <div class="flex items-center space-x-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-sky-400 flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-brand-500/20"
+          >
+            E
+          </div>
+          <div>
+            <span class="text-xl font-bold tracking-tight text-white block"
+              >Enterprise<span class="text-brand-500">ERP</span></span
+            >
+            <span
+              class="text-[10px] text-emerald-400 font-mono tracking-wider uppercase block"
+              >On-Premise & Cloud Ready</span
+            >
+          </div>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-navy-900 border-b border-slate-800 px-6 py-6 space-y-4">
-            <a href="#hero" class="block text-sm font-medium text-slate-300 hover:text-blue-400 py-1">Ana Sayfa</a>
-            <a href="#modules" class="block text-sm font-medium text-slate-300 hover:text-blue-400 py-1">11 Ana Modül</a>
-            <a href="#catalog" class="block text-sm font-medium text-slate-300 hover:text-blue-400 py-1">Tüm Özellik Listesi</a>
-            <a href="#security" class="block text-sm font-medium text-slate-300 hover:text-blue-400 py-1">Güvenlik & RBAC</a>
-            <a href="#roi" class="block text-sm font-medium text-slate-300 hover:text-blue-400 py-1">ROI Hesaplayıcı</a>
-            <a href="#pricing" class="block text-sm font-medium text-slate-300 hover:text-blue-400 py-1">Fiyatlandırma</a>
-            <button onclick="openDemoModal()" class="w-full mt-3 px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-500 transition-all flex items-center justify-center gap-2">
-                <i data-lucide="calendar" class="w-4 h-4"></i>
-                <span>Demo Talebi Oluştur</span>
-            </button>
+        <nav
+          class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300"
+        >
+          <a href="#moduller" class="hover:text-brand-400 transition-colors"
+            >Modüller</a
+          >
+          <a href="#on-premise" class="hover:text-brand-400 transition-colors"
+            >On-Premise Mimari</a
+          >
+          <a href="#referanslar" class="hover:text-brand-400 transition-colors"
+            >Referanslar</a
+          >
+          <a href="#guvenlik" class="hover:text-brand-400 transition-colors"
+            >Güvenlik</a
+          >
+        </nav>
+
+        <div class="flex items-center space-x-4">
+          <a
+            href="#demo"
+            class="bg-brand-600 hover:bg-brand-500 text-white font-medium px-5 py-2.5 rounded-lg transition-all shadow-lg shadow-brand-600/30 text-sm flex items-center space-x-2"
+          >
+            <span>Demo Talebi</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
         </div>
+      </div>
     </header>
 
-    <section id="hero" class="relative pt-32 pb-24 lg:pt-44 lg:pb-32 overflow-hidden border-b border-slate-800/60">
-        <!-- Background Radial Illumination -->
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-blue-600/10 rounded-full blur-[160px] pointer-events-none"></div>
-        <div class="absolute top-1/3 left-1/3 w-[500px] h-[400px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+      <div
+        class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(2,132,199,0.25),rgba(255,255,255,0))] pointer-events-none"
+      ></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-4xl mx-auto space-y-6">
+          <div
+            class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-700 text-xs font-mono text-slate-300"
+          >
+            <span
+              class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
+            ></span>
+            <span>100% Yerel Ağ (Air-Gapped) & On-Premise Kurulum Desteği</span>
+          </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-4xl mx-auto">
-                
-                <!-- Security Badges Ribbon -->
-                <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-navy-850 border border-slate-700/80 text-xs font-mono text-slate-300 mb-8 shadow-inner">
-                    <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="font-bold text-white">NexERP Enterprise v4.8</span>
-                    <span class="text-slate-600">|</span>
-                    <span class="text-emerald-400 flex items-center gap-1"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> ISO 27001 & KVKK Uyumlu</span>
-                    <span class="text-slate-600 hidden sm:inline">|</span>
-                    <span class="text-blue-400 hidden sm:inline flex items-center gap-1"><i data-lucide="lock" class="w-3.5 h-3.5"></i> SOC 2 Type II</span>
-                </div>
+          <h1
+            class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight"
+          >
+            Kurumsal Operasyonlarınızı <br />
+            <span
+              class="bg-gradient-to-r from-sky-400 via-brand-500 to-indigo-400 bg-clip-text text-transparent"
+              >Tam Güvenlikli On-Premise</span
+            >
+            ERP İle Yönetin
+          </h1>
 
-                <!-- Main Title -->
-                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.1] mb-6">
-                    Büyüyen Kurumlar İçin <br>
-                    <span class="text-gradient">Uçtan Uca Dijital Operasyon</span> <br>
-                    <span class="text-gradient-accent">Ve Kaynak Yönetimi Platformu</span>
-                </h1>
+          <p
+            class="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto font-normal"
+          >
+            Finans, Satış, Stok, Depo ve Bayi ağınızı tek bir platformda
+            birleştirin. Verileriniz tamamen sizin sunucularınızda kalsın, sıfır
+            dış bağımlılık ile kesintisiz çalışın.
+          </p>
 
-                <!-- Subtitle -->
-                <p class="text-base sm:text-xl text-slate-300 mb-10 max-w-3xl mx-auto leading-relaxed font-normal">
-                    Finans, Satış, Satın Alma, Stok, Depo, Bayi, Operasyon, Analitik, Veri Yönetimi, Güvenlik ve Entegrasyon süreçlerinizi **11 entegre modül** ile tek bir güvenli, yüksek performanslı mimaride birleştirin.
-                </p>
+          <div
+            class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+          >
+            <a
+              href="#demo"
+              class="w-full sm:w-auto px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl transition-all shadow-xl shadow-brand-600/25 flex items-center justify-center space-x-3"
+            >
+              <i data-lucide="server" class="w-5 h-5"></i>
+              <span>On-Premise Demo İsteyin</span>
+            </a>
+            <a
+              href="#moduller"
+              class="w-full sm:w-auto px-8 py-4 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold rounded-xl transition-all flex items-center justify-center space-x-3"
+            >
+              <i data-lucide="layers" class="w-5 h-5"></i>
+              <span>Tüm Modülleri İnceleyin</span>
+            </a>
+          </div>
 
-                <!-- Primary CTAs -->
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-                    <button onclick="openDemoModal()" class="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 shadow-xl shadow-blue-600/30 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3 border border-blue-400/30">
-                        <span>Kurumsal Demo Talebi Oluştur</span>
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                    </button>
-                    <a href="#catalog" class="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-bold uppercase tracking-wider text-slate-200 bg-navy-850 hover:bg-navy-800 border border-slate-700 transition-all flex items-center justify-center gap-3">
-                        <i data-lucide="list-checks" class="w-5 h-5 text-blue-400"></i>
-                        <span>Tüm Modülleri & Özellikleri İncele</span>
-                    </a>
-                </div>
-
-                <!-- Trust Logos Bar -->
-                <div class="pt-6 border-t border-slate-800/80 flex flex-wrap items-center justify-center gap-8 text-xs font-mono text-slate-400">
-                    <span class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Multi-Tenant & On-Premise</span>
-                    <span class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> RESTful & gRPC API</span>
-                    <span class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> RBAC Yetki Matrisi</span>
-                    <span class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Tam Audit Log İzleme</span>
-                </div>
+          <!-- Security / Deployment Badges -->
+          <div
+            class="pt-10 flex flex-wrap items-center justify-center gap-6 text-slate-400 text-xs font-mono border-t border-slate-800/80 mt-12"
+          >
+            <div class="flex items-center space-x-2">
+              <i
+                data-lucide="shield-check"
+                class="w-4 h-4 text-emerald-400"
+              ></i>
+              <span>ISO 27001 & KVKK Uyumlu</span>
             </div>
-
-            <div class="relative max-w-6xl mx-auto mt-14">
-                <div class="rounded-2xl p-1 bg-gradient-to-r from-blue-600/40 via-indigo-500/20 to-emerald-500/30 shadow-glow-blue">
-                    <div class="bg-navy-900 rounded-xl overflow-hidden border border-slate-800">
-                        
-                        <!-- Top Chrome Bar -->
-                        <div class="bg-navy-950 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <div class="flex space-x-2">
-                                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                                </div>
-                                <div class="h-4 w-px bg-slate-800 mx-2"></div>
-                                <span class="text-xs font-mono text-slate-400 flex items-center gap-2">
-                                    <i data-lucide="globe" class="w-3.5 h-3.5 text-blue-400"></i> https://enterprise.nexerp.com/console/executive-overview
-                                </span>
-                            </div>
-                            <div class="flex items-center space-x-4 text-xs font-mono">
-                                <span class="text-emerald-400 flex items-center gap-1.5">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                                    Sistem Durumu: Tam Operasyonel
-                                </span>
-                                <span class="text-slate-500">Latency: 14ms</span>
-                            </div>
-                        </div>
-
-                        <!-- Live Tab Selectors for Mockup -->
-                        <div class="bg-navy-850 px-6 py-3 border-b border-slate-800/80 flex space-x-2 overflow-x-auto text-xs font-semibold">
-                            <button onclick="switchMockupTab('finans')" id="tab-btn-finans" class="mockup-tab-btn active-tab px-4 py-2 rounded-lg border transition-all flex items-center gap-2">
-                                <i data-lucide="wallet" class="w-4 h-4"></i> Finans & Konsolidasyon
-                            </button>
-                            <button onclick="switchMockupTab('stok')" id="tab-btn-stok" class="mockup-tab-btn px-4 py-2 rounded-lg border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all flex items-center gap-2">
-                                <i data-lucide="boxes" class="w-4 h-4"></i> Stok & Depo Lojistiği
-                            </button>
-                            <button onclick="switchMockupTab('bayi')" id="tab-btn-bayi" class="mockup-tab-btn px-4 py-2 rounded-lg border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all flex items-center gap-2">
-                                <i data-lucide="users" class="w-4 h-4"></i> Bayi B2B Ağı
-                            </button>
-                            <button onclick="switchMockupTab('security')" id="tab-btn-security" class="mockup-tab-btn px-4 py-2 rounded-lg border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all flex items-center gap-2">
-                                <i data-lucide="shield-check" class="w-4 h-4"></i> Audit & RBAC Güvenlik
-                            </button>
-                        </div>
-
-                        <!-- Dynamic Mockup View Area -->
-                        <div class="p-6 sm:p-8 min-h-[380px] bg-navy-900/90" id="mockup-display-area">
-                            <!-- Rendered dynamically via JavaScript -->
-                        </div>
-
-                    </div>
-                </div>
+            <div class="flex items-center space-x-2">
+              <i data-lucide="hard-drive" class="w-4 h-4 text-sky-400"></i>
+              <span>Kendi Sunucunda Barındırma (Self-Hosted)</span>
             </div>
-
+            <div class="flex items-center space-x-2">
+              <i data-lucide="database" class="w-4 h-4 text-indigo-400"></i>
+              <span>PostgreSQL / MS SQL / Oracle Desteği</span>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section class="py-12 bg-navy-950 border-b border-slate-800/80 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-slate-800/60">
-                <div class="p-4">
-                    <div class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-2">99.99%</div>
-                    <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Yüksek Erişilebilirlik (SLA)</div>
-                </div>
-                <div class="p-4">
-                    <div class="text-3xl sm:text-5xl font-black text-blue-400 tracking-tight mb-2">11/11</div>
-                    <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Eksiksiz Entegre Modül</div>
-                </div>
-                <div class="p-4">
-                    <div class="text-3xl sm:text-5xl font-black text-emerald-400 tracking-tight mb-2">%45</div>
-                    <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Ortalama İş Yükü Tasarrufu</div>
-                </div>
-                <div class="p-4">
-                    <div class="text-3xl sm:text-5xl font-black text-indigo-400 tracking-tight mb-2">0.02 sn</div>
-                    <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sorgu Yanıt Süresi</div>
-                </div>
+    <!-- On-Premise Infrastructure Section -->
+    <section
+      id="on-premise"
+      class="py-20 bg-navy-900 border-y border-slate-800/80"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="space-y-6">
+            <div
+              class="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-mono uppercase tracking-wider"
+            >
+              Veri Mülkiyeti & Esneklik
             </div>
-        </div>
-    </section>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white leading-tight">
+              Neden On-Premise ERP? <br />
+              Verileriniz Tamamen Sizin Kontrolünüzde
+            </h2>
+            <p class="text-slate-400 leading-relaxed">
+              Kritik finansal verilerinizi, müşteri kayıtlarınızı ve stok
+              bilgilerinizi üçüncü taraf bulut sağlayıcılarına emanet etmek
+              zorunda değilsiniz. Kurumsal On-Premise mimarimiz sayesinde
+              sisteminiz kendi veri merkezinizde veya özel sunucularınızda
+              çalışır.
+            </p>
 
-    <section id="modules" class="py-24 relative border-b border-slate-800/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <!-- Section Header -->
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">
-                    <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Mimari ve Modül Ağacı
+            <div class="space-y-4 pt-2">
+              <div class="flex items-start space-x-4 p-4 rounded-xl glass-card">
+                <div
+                  class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg shrink-0"
+                >
+                  <i data-lucide="wifi-off" class="w-6 h-6"></i>
                 </div>
-                <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
-                    Tüm Operasyonel Modüller ve Yetenekler
-                </h2>
-                <p class="text-slate-300 text-base leading-relaxed">
-                    Aşağıdaki listede sistemimizin sunduğu 11 ana modülü ve her birine ait spesifik alt bileşenleri detaylarıyla inceleyebilirsiniz.
-                </p>
-            </div>
-
-            <!-- Module Navigation Layout: Sidebar + Main Content -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                <!-- Left Column: Module Navigation Tabs (4 Cols) -->
-                <div class="lg:col-span-4 space-y-2 max-h-[680px] overflow-y-auto pr-2" id="modules-nav-list">
-                    <!-- Dynamic Module Tabs JS -->
-                </div>
-
-                <!-- Right Column: Selected Module Comprehensive Detail Panel (8 Cols) -->
-                <div class="lg:col-span-8">
-                    <div class="glass-panel rounded-2xl p-6 sm:p-10 border border-slate-800 min-h-[600px] flex flex-col justify-between" id="module-detail-card">
-                        <!-- Dynamic Detailed View JS -->
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <section id="catalog" class="py-24 bg-navy-950 relative border-b border-slate-800/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-4">
-                    <i data-lucide="database" class="w-3.5 h-3.5"></i> Eksiksiz B2B Katalogu
-                </div>
-                <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
-                    Tüm Modüller ve Alt Özellik Matrisi
-                </h2>
-                <p class="text-slate-300 text-base">
-                    Hiçbir detay atlanmadan listelenen tam mimari. Herhangi bir terimi veya alt modülü arayabilirsiniz.
-                </p>
-            </div>
-
-            <!-- Master Search Bar -->
-            <div class="max-w-2xl mx-auto mb-12">
-                <div class="relative">
-                    <i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="catalog-search-input" onkeyup="filterMasterCatalog()" placeholder="Tüm sistemde arayın (örn: Cari Hesaplar, Lot, Audit, API, KPI, Excel...)" 
-                           class="w-full pl-12 pr-4 py-4 bg-navy-900 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm">
-                </div>
-            </div>
-
-            <!-- Master Feature Grid (11 Modules Displayed Explicitly) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="master-catalog-grid">
-                <!-- Javascript will inject all 11 modules with ALL subfeatures -->
-            </div>
-
-        </div>
-    </section>
-
-    <section id="security" class="py-24 relative border-b border-slate-800/60 bg-gradient-to-b from-navy-900 via-navy-950 to-navy-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                
-                <div class="lg:col-span-6 space-y-6">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-widest">
-                        <i data-lucide="shield" class="w-3.5 h-3.5"></i> Kurumsal Güvenlik Standartları
-                    </div>
-                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                        Erişim Kontrolü, RBAC ve Tam Audit İzlenebilirliği
-                    </h2>
-                    <p class="text-slate-300 text-base leading-relaxed">
-                        Hassas finansal ve ticari verilerinizin güvenliği için endüstri lideri kısıtlama ve izleme yetenekleri standart olarak sunulur.
-                    </p>
-
-                    <div class="space-y-4 pt-2">
-                        <div class="flex items-start gap-4 p-4 rounded-xl bg-navy-850 border border-slate-800">
-                            <div class="p-2.5 rounded-lg bg-blue-500/10 text-blue-400 flex-shrink-0">
-                                <i data-lucide="lock" class="w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm mb-1">Gelişmiş Rol ve Yetki Matrisi (RBAC)</h4>
-                                <p class="text-slate-400 text-xs leading-relaxed">
-                                    Kullanıcılara modül, ekran, alan (field-level) ve işlem bazlı (Okuma, Yazma, Silme, Onaylama) spesifik yetkiler atayın.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4 p-4 rounded-xl bg-navy-850 border border-slate-800">
-                            <div class="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-400 flex-shrink-0">
-                                <i data-lucide="history" class="w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm mb-1">Milisaniyelik Tam Audit İzleme (Audit Trail)</h4>
-                                <p class="text-slate-400 text-xs leading-relaxed">
-                                    Sistemdeki her bir veri değişikliği, oturum açma, veri dışa aktarma işlemi değiştiren kullanıcı, IP, zaman damgası ve eski/yeni değer kaydıyla değişmez şekilde saklanır.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4 p-4 rounded-xl bg-navy-850 border border-slate-800">
-                            <div class="p-2.5 rounded-lg bg-cyan-500/10 text-cyan-400 flex-shrink-0">
-                                <i data-lucide="server" class="w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm mb-1">Veri İzolasyonu & Veri Egemenliği</h4>
-                                <p class="text-slate-400 text-xs leading-relaxed">
-                                    Multi-Tenant mimaride tam mantıksal veri izolasyonu veya kurumsal müşterilerimiz için On-Premise / Private Cloud özel sunucu seçenekleri.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-6">
-                    <!-- Visual Security Matrix Card -->
-                    <div class="glass-panel rounded-2xl p-6 sm:p-8 border border-slate-800">
-                        <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-6">
-                            <span class="text-xs font-mono text-slate-400 flex items-center gap-2">
-                                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> SECURITY_POLICY_MANAGER
-                            </span>
-                            <span class="text-[10px] font-mono bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">ENFORCED</span>
-                        </div>
-
-                        <div class="space-y-4 font-mono text-xs">
-                            <div class="p-3 rounded bg-navy-950 border border-slate-800 flex justify-between items-center">
-                                <span class="text-slate-300">Rol: Finans Müdürü</span>
-                                <span class="text-emerald-400 font-bold">Tam Yetki (CRUD)</span>
-                            </div>
-                            <div class="p-3 rounded bg-navy-950 border border-slate-800 flex justify-between items-center">
-                                <span class="text-slate-300">Rol: Saha Satış Temsilcisi</span>
-                                <span class="text-amber-400 font-bold">Sadece Kendi Müşterileri</span>
-                            </div>
-                            <div class="p-3 rounded bg-navy-950 border border-slate-800 flex justify-between items-center">
-                                <span class="text-slate-300">Rol: Depo Sorumlusu</span>
-                                <span class="text-blue-400 font-bold">Stok & Depo Modülleri</span>
-                            </div>
-                            <div class="p-3 rounded bg-navy-950 border border-slate-800 flex justify-between items-center">
-                                <span class="text-slate-300">Rol: Dış Denetçi (Audit)</span>
-                                <span class="text-purple-400 font-bold">Salt Okunur (Read-Only)</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-6 pt-6 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-                            <span>TLS 1.3 Encryption & AES-256</span>
-                            <span class="text-emerald-400 font-mono">100% KVKK Compliant</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="roi" class="py-24 relative border-b border-slate-800/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="glass-panel rounded-3xl p-8 sm:p-14 border border-slate-800 bg-gradient-to-br from-navy-900 via-navy-950 to-blue-950/30">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    
-                    <div class="lg:col-span-6 space-y-6">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest">
-                            <i data-lucide="calculator" class="w-3.5 h-3.5"></i> Verimlilik & ROI Analizi
-                        </div>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
-                            Yıllık Zaman ve Maliyet Tasarrufunuzu Hesaplayın
-                        </h2>
-                        <p class="text-slate-300 text-sm leading-relaxed">
-                            Manuel veri girişleri, uyumsuz yazılımlar ve manuel onay süreçlerinin şirketinize maliyetini öğrenin. NexERP otomasyonunun sağlayacağı net kazancı görün.
-                        </p>
-
-                        <!-- Interactive Range Slider Controls -->
-                        <div class="space-y-6 pt-4">
-                            <div>
-                                <div class="flex justify-between text-sm font-semibold mb-2">
-                                    <span class="text-slate-300">Toplam Beyaz Yaka Kullanıcı Sayısı:</span>
-                                    <span class="text-blue-400 font-bold text-lg font-mono" id="roi-users-val">50 Kullanıcı</span>
-                                </div>
-                                <input type="range" id="roi-users-slider" min="10" max="500" value="50" step="5" oninput="updateRoiCalculation()"
-                                       class="w-full h-2 bg-navy-950 rounded-lg appearance-none cursor-pointer accent-blue-500">
-                            </div>
-
-                            <div>
-                                <div class="flex justify-between text-sm font-semibold mb-2">
-                                    <span class="text-slate-300">Ortalama İş Gücü Saatlik Maliyeti:</span>
-                                    <span class="text-emerald-400 font-bold text-lg font-mono" id="roi-rate-val">₺350 / saat</span>
-                                </div>
-                                <input type="range" id="roi-rate-slider" min="150" max="1000" value="350" step="25" oninput="updateRoiCalculation()"
-                                       class="w-full h-2 bg-navy-950 rounded-lg appearance-none cursor-pointer accent-emerald-500">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ROI Results Display -->
-                    <div class="lg:col-span-6">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div class="p-6 rounded-2xl bg-navy-950 border border-slate-800 text-center">
-                                <div class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Aylık Tasarruf Edilen Süre</div>
-                                <div class="text-3xl sm:text-4xl font-black text-blue-400 font-mono" id="roi-hours-result">400 Saat</div>
-                                <div class="text-xs text-slate-400 mt-2">İş akışları & otomasyon ile</div>
-                            </div>
-
-                            <div class="p-6 rounded-2xl bg-navy-950 border border-slate-800 text-center">
-                                <div class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Tahmini Yıllık Katkı</div>
-                                <div class="text-3xl sm:text-4xl font-black text-emerald-400 font-mono" id="roi-cost-result">₺1,680,000</div>
-                                <div class="text-xs text-slate-400 mt-2">Net verimlilik kazancı</div>
-                            </div>
-                        </div>
-
-                        <div class="mt-6 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-center">
-                            <span class="text-xs text-blue-300">
-                                💡 NexERP ile süreç dönüşüm süresi ortalama <strong>3 ila 6 hafta</strong> arasındadır.
-                            </span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="py-24 relative border-b border-slate-800/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold uppercase tracking-widest mb-4">
-                    <i data-lucide="layers" class="w-3.5 h-3.5"></i> Dağıtım ve Paketler
-                </div>
-                <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
-                    Ölçeğinize Uygun Dağıtım Modelleri
-                </h2>
-                <p class="text-slate-300 text-base">
-                    İster bulut üzerinde hemen başlayın, ister kendi sunucularınızda (On-Premise) barındırın.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <!-- Cloud Professional Plan -->
-                <div class="glass-panel rounded-2xl p-8 border border-slate-800 flex flex-col justify-between">
-                    <div>
-                        <div class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-2">SaaS Bulut</div>
-                        <h3 class="text-2xl font-bold text-white mb-4">Bulut Profesyonel</h3>
-                        <p class="text-xs text-slate-400 mb-6">Orta ölçekli büyüyen şirketler için bulut altyapısı.</p>
-                        
-                        <div class="mb-6 pb-6 border-b border-slate-800">
-                            <span class="text-3xl font-black text-white">Esnek Kullanıcı</span>
-                            <span class="text-slate-400 text-xs block mt-1">Aylık veya Yıllık Faturalandırma</span>
-                        </div>
-
-                        <ul class="space-y-3 text-xs text-slate-300 mb-8">
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Tüm 11 Ana Modül Erişimi</li>
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> %99.9 Uptime Garantisi</li>
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Standart REST API Desteği</li>
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Günlük Otomatik Veri Yedekleme</li>
-                        </ul>
-                    </div>
-
-                    <button onclick="openDemoModal()" class="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all border border-slate-700">
-                        Teklif İsteyin
-                    </button>
-                </div>
-
-                <!-- Cloud Enterprise Plan (Featured) -->
-                <div class="glass-panel rounded-2xl p-8 border-2 border-blue-500 relative flex flex-col justify-between shadow-glow-blue bg-navy-850">
-                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[10px] font-extrabold px-4 py-1 rounded-full uppercase tracking-widest shadow-md">
-                        En Çok Tercih Edilen
-                    </div>
-
-                    <div>
-                        <div class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-2">Dedicated Cloud</div>
-                        <h3 class="text-2xl font-bold text-white mb-4">Kurumsal Bulut</h3>
-                        <p class="text-xs text-slate-400 mb-6">Özel isolated veritabanı kaynağı ve yüksek hacimli işletmeler.</p>
-
-                        <div class="mb-6 pb-6 border-b border-slate-800">
-                            <span class="text-3xl font-black text-white">Özel Kaynak</span>
-                            <span class="text-slate-400 text-xs block mt-1">İzole Veritabanı Mimarisi</span>
-                        </div>
-
-                        <ul class="space-y-3 text-xs text-slate-300 mb-8">
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Bütün Modüller & Sınırsız Alt Özellikler</li>
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Gelişmiş Audit Trail & RBAC Matrisi</li>
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Banka & e-Fatura Tam Entegrasyon</li>
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> 7/24 Özel Müşteri Yöneticisi & SLA</li>
-                        </ul>
-                    </div>
-
-                    <button onclick="openDemoModal()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-600/30">
-                        Demo & Fiyat Görüşmesi
-                    </button>
-                </div>
-
-                <!-- On-Premise Plan -->
-                <div class="glass-panel rounded-2xl p-8 border border-slate-800 flex flex-col justify-between">
-                    <div>
-                        <div class="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-2">Private Cloud / On-Prem</div>
-                        <h3 class="text-2xl font-bold text-white mb-4">On-Premise Kurumsal</h3>
-                        <p class="text-xs text-slate-400 mb-6">Verilerini kendi veri merkezinde saklamak isteyen kurumlar.</p>
-
-                        <div class="mb-6 pb-6 border-b border-slate-800">
-                            <span class="text-3xl font-black text-white">Kendi Sunucunuz</span>
-                            <span class="text-slate-400 text-xs block mt-1">Sınırsız Yerel Lisanslama</span>
-                        </div>
-
-                        <ul class="space-y-3 text-xs text-slate-300 mb-8">
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Yerel Sunucu Kurulumu & Kaynak Kodu Opsiyonu</li>
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Özel Müşteri Odaklı Kod Geliştirme</li>
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Yerinde Veri Güvenliği Denetimi Desteği</li>
-                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Yıllık Bakım ve Güncelleme Sözleşmesi</li>
-                        </ul>
-                    </div>
-
-                    <button onclick="openDemoModal()" class="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all border border-slate-700">
-                        On-Premise Şartları Alın
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="py-20 relative">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="rounded-3xl p-10 sm:p-16 bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-900 text-center relative overflow-hidden shadow-2xl border border-blue-400/30">
-                <div class="relative z-10">
-                    <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-6">
-                        Kurumsal Dijital Dönüşümünüzü <br>Bugün Planlayın
-                    </h2>
-                    <p class="text-blue-100 text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
-                        Uzman ERP mimarlarımız, şirketinizin mevcut süreçlerini analiz etsin ve ihtiyaçlarınıza özel modüler yol haritası sunsun.
-                    </p>
-                    <button onclick="openDemoModal()" class="px-8 py-4 rounded-xl text-xs font-bold uppercase tracking-wider text-blue-950 bg-white hover:bg-blue-50 shadow-2xl transition-all transform hover:-translate-y-0.5">
-                        Canlı Sistem Sunumu İçin Randevu Alın
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-navy-950 border-t border-slate-800/80 py-16 text-xs text-slate-400">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
-                
-                <div class="md:col-span-2 space-y-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
-                            <i data-lucide="layers" class="w-5 h-5"></i>
-                        </div>
-                        <span class="text-xl font-bold text-white tracking-tight">NexERP Enterprise</span>
-                    </div>
-                    <p class="text-slate-400 text-xs leading-relaxed max-w-sm">
-                        Orta ve büyük ölçekli kurumların tüm finans, satış, stok, bayi ve operasyon süreçlerini yüksek performans ve güvenlik standartlarında yönetmesini sağlayan bütünleşik ERP yazılım platformu.
-                    </p>
-                    <div class="pt-2 flex items-center gap-4 text-slate-300 font-mono text-[11px]">
-                        <span>ISO 27001</span> • <span>KVKK / GDPR</span> • <span>SOC 2 TYPE II</span>
-                    </div>
-                </div>
-
                 <div>
-                    <h4 class="text-white font-bold uppercase tracking-wider mb-4">Modüller (11)</h4>
-                    <ul class="space-y-2 text-slate-400">
-                        <li><a href="#catalog" class="hover:text-blue-400 transition-colors">Finans & Muhasebe</a></li>
-                        <li><a href="#catalog" class="hover:text-blue-400 transition-colors">Satış & Satın Alma</a></li>
-                        <li><a href="#catalog" class="hover:text-blue-400 transition-colors">Stok & Depo Yönetimi</a></li>
-                        <li><a href="#catalog" class="hover:text-blue-400 transition-colors">Bayi & Operasyon</a></li>
-                        <li><a href="#catalog" class="hover:text-blue-400 transition-colors">Raporlama & Analitik</a></li>
-                    </ul>
+                  <h3 class="font-semibold text-white">
+                    Air-Gapped (İnternetsiz Ağ) Çalışma Desteği
+                  </h3>
+                  <p class="text-sm text-slate-400 mt-1">
+                    Dış dünyaya kapalı yerel ağlarda %100 performans ve güvenlik
+                    ile kesintisiz kullanım.
+                  </p>
                 </div>
+              </div>
 
+              <div class="flex items-start space-x-4 p-4 rounded-xl glass-card">
+                <div
+                  class="p-2 bg-brand-500/10 text-brand-400 rounded-lg shrink-0"
+                >
+                  <i data-lucide="lock" class="w-6 h-6"></i>
+                </div>
                 <div>
-                    <h4 class="text-white font-bold uppercase tracking-wider mb-4">Güvenlik & Mimari</h4>
-                    <ul class="space-y-2 text-slate-400">
-                        <li><a href="#security" class="hover:text-blue-400 transition-colors">RBAC Yetki Matrisi</a></li>
-                        <li><a href="#security" class="hover:text-blue-400 transition-colors">Audit Trail İzleme</a></li>
-                        <li><a href="#security" class="hover:text-blue-400 transition-colors">REST / gRPC API</a></li>
-                        <li><a href="#pricing" class="hover:text-blue-400 transition-colors">On-Premise Seçeneği</a></li>
-                    </ul>
+                  <h3 class="font-semibold text-white">
+                    Sıfır Veri Sızıntısı Riski
+                  </h3>
+                  <p class="text-sm text-slate-400 mt-1">
+                    Sadece kurum içi yetkilendirilmiş personelin erişebildiği
+                    izolasyonlu veri yapısı.
+                  </p>
                 </div>
+              </div>
 
+              <div class="flex items-start space-x-4 p-4 rounded-xl glass-card">
+                <div
+                  class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg shrink-0"
+                >
+                  <i data-lucide="cpu" class="w-6 h-6"></i>
+                </div>
                 <div>
-                    <h4 class="text-white font-bold uppercase tracking-wider mb-4">İletişim & Destek</h4>
-                    <p class="text-slate-400 mb-2">enterprise@nexerp.com</p>
-                    <p class="text-slate-400 mb-4">+90 (850) 888 0 444</p>
-                    <div class="flex space-x-3 text-slate-400">
-                        <a href="#" class="hover:text-white p-2 bg-navy-900 rounded-lg"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
-                        <a href="#" class="hover:text-white p-2 bg-navy-900 rounded-lg"><i data-lucide="twitter" class="w-4 h-4"></i></a>
-                        <a href="#" class="hover:text-white p-2 bg-navy-900 rounded-lg"><i data-lucide="github" class="w-4 h-4"></i></a>
-                    </div>
+                  <h3 class="font-semibold text-white">
+                    Yüksek Donanım ve Veritabanı Performansı
+                  </h3>
+                  <p class="text-sm text-slate-400 mt-1">
+                    Kendi sunucu kaynaklarınızı doğrudan ERP performansına
+                    odaklayarak milisaniyelik yanıt süreleri.
+                  </p>
                 </div>
+              </div>
+            </div>
+          </div>
 
+          <div
+            class="glass-card p-6 rounded-2xl border border-slate-700/80 glow-effect relative"
+          >
+            <div
+              class="flex items-center justify-between pb-4 border-b border-slate-800 text-xs font-mono text-slate-400"
+            >
+              <span class="flex items-center space-x-2">
+                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                <span>ON-PREMISE NODE: ACTIVE</span>
+              </span>
+              <span>LOCAL IP: 192.168.1.100</span>
             </div>
 
-            <div class="border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400">
-                <div>&copy; 2026 NexERP Yazılım Teknolojileri A.Ş. Tüm hakları saklıdır.</div>
-                <div class="flex space-x-6 mt-4 sm:mt-0">
-                    <a href="#" class="hover:text-slate-300">Gizlilik Politikası</a>
-                    <a href="#" class="hover:text-slate-300">Kullanım Koşulları</a>
-                    <a href="#" class="hover:text-slate-300">KVKK Aydınlatma Metni</a>
+            <div class="py-8 space-y-6">
+              <div
+                class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 space-y-3 font-mono text-xs"
+              >
+                <div class="text-sky-400">
+                  $ systemctl status enterprise-erp.service
                 </div>
+                <div class="text-emerald-400">
+                  ● enterprise-erp.service - Enterprise ERP Core Service
+                </div>
+                <div class="text-slate-400">
+                  Loaded: loaded (/etc/systemd/system/enterprise-erp.service;
+                  enabled)
+                </div>
+                <div class="text-slate-400">
+                  Active:
+                  <span class="text-emerald-400">active (running)</span> since
+                  Local Server Boot
+                </div>
+                <div class="text-slate-400">
+                  Database: PostgreSQL (Internal Air-Gapped Cluster)
+                </div>
+                <div class="text-slate-400">
+                  Storage: Encrypted Local SAN/NAS Network
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4 text-center">
+                <div
+                  class="p-4 bg-slate-900/60 rounded-xl border border-slate-800"
+                >
+                  <div class="text-2xl font-bold text-white">0 ms</div>
+                  <div class="text-xs text-slate-400 mt-1">
+                    Dış Ağ Gecikmesi (Latency)
+                  </div>
+                </div>
+                <div
+                  class="p-4 bg-slate-900/60 rounded-xl border border-slate-800"
+                >
+                  <div class="text-2xl font-bold text-emerald-400">100%</div>
+                  <div class="text-xs text-slate-400 mt-1">
+                    Yerel Ağ Veri Gizliliği
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- References & Success Stories -->
+    <section id="referanslar" class="py-20 bg-navy-950">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div
+            class="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-mono uppercase tracking-wider mb-4"
+          >
+            Kurumsal Referanslar
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white">
+            Lider Kurumların On-Premise Tercihi
+          </h2>
+          <p class="text-slate-400 mt-4">
+            Üretim, perakende, lojistik ve finans sektöründe faaliyet gösteren
+            kurumsal müşterilerimizin On-Premise ERP ile elde ettiği başarılar.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xl text-white tracking-wider"
+                  >GLOBAL LOJİSTİK A.Ş.</span
+                >
+                <span
+                  class="text-xs font-mono bg-sky-500/10 text-sky-400 px-2.5 py-1 rounded border border-sky-500/20"
+                  >Lojistik & Depo</span
+                >
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed italic">
+                "12 farklı depomuzu ve bayilerimizi On-Premise ERP mimarisiyle
+                tek bir yerel sunucu merkezinde topladık. Stok doğruluk oranımız
+                %99.8'e yükseldi."
+              </p>
+            </div>
+            <div
+              class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-mono text-slate-400"
+            >
+              <span>450+ Aktif Kullanıcı</span>
+              <span class="text-emerald-400">%40 Maliyet Tasarrufu</span>
+            </div>
+          </div>
+
+          <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xl text-white tracking-wider"
+                  >TEKNO ÜRETİM HOLDİNG</span
+                >
+                <span
+                  class="text-xs font-mono bg-indigo-500/10 text-indigo-400 px-2.5 py-1 rounded border border-indigo-500/20"
+                  >Ağır Sanayi</span
+                >
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed italic">
+                "Air-Gapped (internetsiz) çalışma desteği sayesinde fabrika içi
+                üretim hatlarımızı ve operasyonlarımızı tamamen güvenli yerel
+                ağımızda yönetiyoruz."
+              </p>
+            </div>
+            <div
+              class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-mono text-slate-400"
+            >
+              <span>1200+ Personel</span>
+              <span class="text-emerald-400">Sıfır Veri Kaybı</span>
+            </div>
+          </div>
+
+          <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xl text-white tracking-wider"
+                  >KENT PERAKENDE ZİNCİRİ</span
+                >
+                <span
+                  class="text-xs font-mono bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded border border-emerald-500/20"
+                  >Magaza & Bayi</span
+                >
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed italic">
+                "Bayi ağımız ile merkez finans/muhasebe yönetimi arasındaki
+                entegrasyonu sağladık. Gün sonu kapanış süreçlerimiz 4 saatten
+                15 dakikaya düştü."
+              </p>
+            </div>
+            <div
+              class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-mono text-slate-400"
+            >
+              <span>85 Şube & Bayi</span>
+              <span class="text-emerald-400">15 Dk Gün Sonu</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comprehensive Modules Section (11 Modules & All Sub-features) -->
+    <section
+      id="moduller"
+      class="py-24 bg-navy-900 border-t border-slate-800/80"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div
+            class="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-mono uppercase tracking-wider mb-4"
+          >
+            Eksiksiz Modül Mimarisi
+          </div>
+          <h2
+            class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight"
+          >
+            11 Ana Modül, Sınırsız Yetenek
+          </h2>
+          <p class="text-slate-400 mt-4 text-base sm:text-lg">
+            Aşağıda işletmenizin tüm ihtiyaçlarını karşılayan 11 ana ERP
+            modülümüz ve her birine ait alt özellikler detaylıca listelenmiştir.
+          </p>
+        </div>
+
+        <!-- Modules Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- 1. Finans & Muhasebe -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-brand-500/10 text-brand-400 group-hover:bg-brand-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="wallet" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">Finans & Muhasebe</h3>
+                <span class="text-xs text-slate-400">8 Alt Özellik</span>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-brand-400 shrink-0"
+                ></i
+                ><span>Cari Hesaplar</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-brand-400 shrink-0"
+                ></i
+                ><span>Bankalar</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-brand-400 shrink-0"
+                ></i
+                ><span>Kasalar</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-brand-400 shrink-0"
+                ></i
+                ><span>Gelirler</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-brand-400 shrink-0"
+                ></i
+                ><span>Giderler</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-brand-400 shrink-0"
+                ></i
+                ><span>Tahsilatlar</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-brand-400 shrink-0"
+                ></i
+                ><span>Ödemeler</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-brand-400 shrink-0"
+                ></i
+                ><span>Finansal Raporlar</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 2. Satış -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="trending-up" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">Satış</h3>
+                <span class="text-xs text-slate-400">4 Alt Özellik</span>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-emerald-400 shrink-0"
+                ></i
+                ><span>Müşteriler</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-emerald-400 shrink-0"
+                ></i
+                ><span>Satışlar</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-emerald-400 shrink-0"
+                ></i
+                ><span>Siparişler</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-emerald-400 shrink-0"
+                ></i
+                ><span>Tahsilatlar</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 3. Satın Alma -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-sky-500/10 text-sky-400 group-hover:bg-sky-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">Satın Alma</h3>
+                <span class="text-xs text-slate-400">3 Alt Özellik</span>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center space-x-2">
+                <i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0"></i
+                ><span>Tedarikçiler</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0"></i
+                ><span>Satın Almalar</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0"></i
+                ><span>Siparişler</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 4. Stok & Envanter -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-amber-500/10 text-amber-400 group-hover:bg-amber-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="boxes" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">Stok & Envanter</h3>
+                <span class="text-xs text-slate-400">5 Alt Özellik</span>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-amber-400 shrink-0"
+                ></i
+                ><span>Ürünler</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-amber-400 shrink-0"
+                ></i
+                ><span>Stok Hareketleri</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-amber-400 shrink-0"
+                ></i
+                ><span>Stok Durumları</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-amber-400 shrink-0"
+                ></i
+                ><span>Seri / Lot Takibi</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-amber-400 shrink-0"
+                ></i
+                ><span>Rezervasyon Yönetimi</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 5. Depo -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="warehouse" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">Depo</h3>
+                <span class="text-xs text-slate-400">4 Alt Özellik</span>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-indigo-400 shrink-0"
+                ></i
+                ><span>Depolar</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-indigo-400 shrink-0"
+                ></i
+                ><span>Mal Kabul</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-indigo-400 shrink-0"
+                ></i
+                ><span>Transfer İşlemleri</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-indigo-400 shrink-0"
+                ></i
+                ><span>Depo Stokları</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 6. Bayi -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-purple-500/10 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="users flex" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">Bayi Yönetimi</h3>
+                <span class="text-xs text-slate-400">3 Alt Özellik</span>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-purple-400 shrink-0"
+                ></i
+                ><span>Bayiler</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-purple-400 shrink-0"
+                ></i
+                ><span>Bayi Hesapları</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-purple-400 shrink-0"
+                ></i
+                ><span>Bayi Performansı</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 7. Operasyon -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-rose-500/10 text-rose-400 group-hover:bg-rose-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="activity" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">Operasyon</h3>
+                <span class="text-xs text-slate-400">3 Alt Özellik</span>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-rose-400 shrink-0"
+                ></i
+                ><span>Operasyon Tanımları</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-rose-400 shrink-0"
+                ></i
+                ><span>Operasyon Takibi</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-rose-400 shrink-0"
+                ></i
+                ><span>Performans Girişleri</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 8. Raporlama & Analitik -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">
+                  Raporlama & Analitik
+                </h3>
+                <span class="text-xs text-slate-400">6 Alt Özellik</span>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-cyan-400 shrink-0"
+                ></i
+                ><span>Yönetici Dashboard</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-cyan-400 shrink-0"
+                ></i
+                ><span>KPI Göstergeleri</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-cyan-400 shrink-0"
+                ></i
+                ><span>Finans Analizleri</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-cyan-400 shrink-0"
+                ></i
+                ><span>Satış Analizleri</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-cyan-400 shrink-0"
+                ></i
+                ><span>Stok Analizleri</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-cyan-400 shrink-0"
+                ></i
+                ><span>Performans Raporları</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 9. Veri Yönetimi -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="file-spreadsheet" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">Veri Yönetimi</h3>
+                <span class="text-xs text-slate-400">2 Alt Özellik</span>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-emerald-400 shrink-0"
+                ></i
+                ><span>Excel Import (İçe Aktarım)</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-emerald-400 shrink-0"
+                ></i
+                ><span>Excel Export (Dışa Aktarım)</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 10. Kullanıcı & Güvenlik -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-red-500/10 text-red-400 group-hover:bg-red-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="shield" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">
+                  Kullanıcı & Güvenlik
+                </h3>
+                <span class="text-xs text-slate-400">4 Alt Özellik</span>
+              </div>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center space-x-2">
+                <i data-lucide="check" class="w-4 h-4 text-red-400 shrink-0"></i
+                ><span>Kullanıcı Yönetimi</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i data-lucide="check" class="w-4 h-4 text-red-400 shrink-0"></i
+                ><span>Rol Tanımlama</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i data-lucide="check" class="w-4 h-4 text-red-400 shrink-0"></i
+                ><span>Detaylı Yetkilendirme</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <i data-lucide="check" class="w-4 h-4 text-red-400 shrink-0"></i
+                ><span>Audit (İşlem Günlüğü) Logları</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 11. Entegrasyon -->
+          <div
+            class="glass-card p-6 rounded-2xl hover:border-brand-500/50 transition-all group lg:col-span-2"
+          >
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="p-3 rounded-xl bg-teal-500/10 text-teal-400 group-hover:bg-teal-500 group-hover:text-white transition-all"
+              >
+                <i data-lucide="cpu" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg text-white">
+                  Entegrasyon Mimarisi
+                </h3>
+                <span class="text-xs text-slate-400">3 Alt Özellik</span>
+              </div>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-4 text-sm text-slate-300">
+              <div
+                class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex items-center space-x-2"
+              >
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-teal-400 shrink-0"
+                ></i>
+                <span>REST / SOAP API Desteği</span>
+              </div>
+              <div
+                class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex items-center space-x-2"
+              >
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-teal-400 shrink-0"
+                ></i>
+                <span>Harici Sistem Entegrasyonu</span>
+              </div>
+              <div
+                class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex items-center space-x-2"
+              >
+                <i
+                  data-lucide="check"
+                  class="w-4 h-4 text-teal-400 shrink-0"
+                ></i>
+                <span>Finansal & Banka Entegrasyonları</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo Request Form Section -->
+    <section id="demo" class="py-24 bg-navy-950 relative overflow-hidden">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div
+          class="glass-card p-8 sm:p-12 rounded-3xl border border-slate-700/80 shadow-2xl"
+        >
+          <div class="text-center space-y-4 mb-8">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+              Kurumsal On-Premise Demo İsteyin
+            </h2>
+            <p class="text-slate-400 text-sm sm:text-base">
+              Uzman ekibimiz sistem mimarisini sunucularınızda nasıl
+              yapılandırabileceğinizi ve modülleri canlı olarak aktarsın.
+            </p>
+          </div>
+
+          <form
+            class="space-y-6"
+            onsubmit="event.preventDefault(); alert('Demo talebiniz başarıyla alındı. Kurumsal ekibimiz en kısa sürede sizinle iletişime geçecektir.');"
+          >
+            <div class="grid sm:grid-cols-2 gap-6">
+              <div>
+                <label
+                  class="block text-xs font-mono text-slate-300 uppercase mb-2"
+                  >Ad Soyad</label
+                >
+                <input
+                  type="text"
+                  required
+                  placeholder="Ahmet Yılmaz"
+                  class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 transition-colors"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-xs font-mono text-slate-300 uppercase mb-2"
+                  >Şirket E-Posta Adresi</label
+                >
+                <input
+                  type="email"
+                  required
+                  placeholder="ahmet@sirketiniz.com"
+                  class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 transition-colors"
+                />
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-6">
+              <div>
+                <label
+                  class="block text-xs font-mono text-slate-300 uppercase mb-2"
+                  >Şirket Adı</label
+                >
+                <input
+                  type="text"
+                  required
+                  placeholder="Holding / Şirket A.Ş."
+                  class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 transition-colors"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-xs font-mono text-slate-300 uppercase mb-2"
+                  >Dağıtım Tercihi</label
+                >
+                <select
+                  class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 transition-colors"
+                >
+                  <option>On-Premise (Kendi Sunucumuz)</option>
+                  <option>Özel Bulut (Private Cloud)</option>
+                  <option>Hibrit (Hybrid)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label
+                class="block text-xs font-mono text-slate-300 uppercase mb-2"
+                >Notlar / İhtiyaç Duyulan Modüller</label
+              >
+              <textarea
+                rows="3"
+                placeholder="Örn: Finans, Stok ve Depo modülleri için yerel ağda kurulum planlıyoruz..."
+                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 transition-colors"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all shadow-xl shadow-brand-600/30 flex items-center justify-center space-x-2"
+            >
+              <span>Talep Gönder</span>
+              <i data-lucide="send" class="w-5 h-5"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="bg-navy-950 py-12 border-t border-slate-800 text-slate-400 text-sm"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6"
+      >
+        <div class="flex items-center space-x-3">
+          <div
+            class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center font-bold text-white text-sm"
+          >
+            E
+          </div>
+          <span class="font-bold text-white tracking-tight"
+            >Enterprise<span class="text-brand-500">ERP</span></span
+          >
+        </div>
+
+        <p class="text-xs text-slate-500">
+          © 2026 Enterprise ERP Solutions. Tüm hakları saklıdır. On-Premise &
+          Cloud Enterprise Software.
+        </p>
+
+        <div class="flex space-x-6 text-xs text-slate-400">
+          <a href="#guvenlik" class="hover:text-white transition-colors"
+            >Güvenlik & KVKK</a
+          >
+          <a href="#on-premise" class="hover:text-white transition-colors"
+            >On-Premise Mimari</a
+          >
+          <a href="#moduller" class="hover:text-white transition-colors"
+            >Modüller</a
+          >
+        </div>
+      </div>
     </footer>
 
-    <div id="demo-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-navy-950/80 backdrop-blur-md">
-        <div class="glass-panel bg-navy-900 rounded-2xl max-w-xl w-full p-8 border border-slate-700 relative shadow-2xl">
-            
-            <button onclick="closeDemoModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-1">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-
-            <div id="modal-form-container">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-widest mb-3">
-                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Kurumsal Sunum Randevusu
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-2">NexERP Demo Talebi Formu</h3>
-                <p class="text-xs text-slate-300 mb-6">Lütfen kurum bilgilerinizi giriniz. ERP uzmanımız 30 dakika içinde sizinle iletişime geçecektir.</p>
-
-                <form id="demo-request-form" onsubmit="submitDemoForm(event)" class="space-y-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Ad Soyad *</label>
-                            <input type="text" required placeholder="Mehmet Yılmaz" class="w-full px-4 py-2.5 bg-navy-950 border border-slate-800 rounded-xl text-white text-xs focus:outline-none focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Kurumsal E-Posta *</label>
-                            <input type="email" required placeholder="mehmet@sirketiniz.com" class="w-full px-4 py-2.5 bg-navy-950 border border-slate-800 rounded-xl text-white text-xs focus:outline-none focus:border-blue-500">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Şirket Adı *</label>
-                            <input type="text" required placeholder="ABC Holding A.Ş." class="w-full px-4 py-2.5 bg-navy-950 border border-slate-800 rounded-xl text-white text-xs focus:outline-none focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon Numarası *</label>
-                            <input type="tel" required placeholder="0532 000 00 00" class="w-full px-4 py-2.5 bg-navy-950 border border-slate-800 rounded-xl text-white text-xs focus:outline-none focus:border-blue-500">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Kullanıcı Ölçeği</label>
-                        <select class="w-full px-4 py-2.5 bg-navy-950 border border-slate-800 rounded-xl text-white text-xs focus:outline-none focus:border-blue-500">
-                            <option>10 - 50 Kullanıcı</option>
-                            <option>50 - 250 Kullanıcı</option>
-                            <option>250 - 1000 Kullanıcı</option>
-                            <option>1000+ Sınırsız Kurumsal</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Öncelikli İhtiyaç Duyulan Modüller</label>
-                        <select class="w-full px-4 py-2.5 bg-navy-950 border border-slate-800 rounded-xl text-white text-xs focus:outline-none focus:border-blue-500">
-                            <option>Tüm Paket (11 Modül Eksiksiz)</option>
-                            <option>Finans & Muhasebe Odaklı</option>
-                            <option>Stok, Depo & Lojistik Odaklı</option>
-                            <option>Bayi & Satış Ağı Odaklı</option>
-                            <option>On-Premise Özel Mimarili</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="w-full py-3.5 mt-2 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 transition-all shadow-lg shadow-blue-600/30">
-                        Demo Randevusu Oluştur
-                    </button>
-                </form>
-            </div>
-
-            <!-- Modal Success Feedback -->
-            <div id="modal-success-state" class="hidden text-center py-10 space-y-4">
-                <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/40">
-                    <i data-lucide="check-circle-2" class="w-10 h-10"></i>
-                </div>
-                <h4 class="text-2xl font-bold text-white">Talebiniz Başarıyla Alındı</h4>
-                <p class="text-xs text-slate-300 max-w-sm mx-auto leading-relaxed">
-                    ERP Danışmanımız girmiş olduğunuz telefon ve e-posta adresi üzerinden 30 dakika içerisinde dönüş sağlayacaktır.
-                </p>
-                <button onclick="closeDemoModal()" class="px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-white transition-all">
-                    Pencereyi Kapat
-                </button>
-            </div>
-
-        </div>
-    </div>
-
     <script>
-        // Full Hierarchy Module Master Dataset - 11 Modules with 100% Complete Explicit Subfeatures
-        const completeErpModules = [
-            {
-                id: 'finans',
-                title: 'Finans & Muhasebe',
-                icon: 'wallet',
-                badge: 'Çekirdek Modül',
-                color: 'blue',
-                subFeatures: [
-                    'Cari Hesaplar',
-                    'Bankalar',
-                    'Kasalar',
-                    'Gelirler',
-                    'Giderler',
-                    'Tahsilatlar',
-                    'Ödemeler',
-                    'Finansal Raporlar'
-                ],
-                description: 'Şirketinizin tüm nakit akışını, banka hareketlerini, cari hesap vadelerini ve bütçe planlamalarını tek platformdan yönetin. Gelir/gider ve cari konsolidasyonunu gerçek zamanlı izleyin.'
-            },
-            {
-                id: 'satis',
-                title: 'Satış',
-                icon: 'shopping-cart',
-                badge: 'Gelir Odaklı',
-                color: 'emerald',
-                subFeatures: [
-                    'Müşteriler',
-                    'Satışlar',
-                    'Siparişler',
-                    'Tahsilatlar'
-                ],
-                description: 'Müşteri teklif sürecinden sipariş onayına, sevkiyat ve tahsilat adımlarına kadar olan tüm satış hunisini (pipeline) merkezi olarak takip edin ve otomatize edin.'
-            },
-            {
-                id: 'satin-alma',
-                title: 'Satın Alma',
-                icon: 'shopping-bag',
-                badge: 'Maliyet Kontrolü',
-                color: 'purple',
-                subFeatures: [
-                    'Tedarikçiler',
-                    'Satın Almalar',
-                    'Siparişler'
-                ],
-                description: 'Tedarikçi performanslarını kıyaslayın, satın alma taleplerini onay mekanizmasından geçirin ve doğru fiyat/vade koşullarıyla sipariş süreçlerini yönetin.'
-            },
-            {
-                id: 'stok',
-                title: 'Stok & Envanter',
-                icon: 'boxes',
-                badge: 'Kritik Envanter',
-                color: 'amber',
-                subFeatures: [
-                    'Ürünler',
-                    'Stok Hareketleri',
-                    'Stok Durumları',
-                    'Seri / Lot',
-                    'Rezervasyon'
-                ],
-                description: 'Kritik stok seviyesi uyarıları, seri ve lot takibi, son kullanma tarihi izlenebilirliği ve sipariş bazlı stok rezervasyonları ile sıfır kayıp envanter yönetimi.'
-            },
-            {
-                id: 'depo',
-                title: 'Depo',
-                icon: 'warehouse',
-                badge: 'Saha Lojistiği',
-                color: 'cyan',
-                subFeatures: [
-                    'Depolar',
-                    'Mal Kabul',
-                    'Transfer',
-                    'Depo Stokları'
-                ],
-                description: 'Çoklu depo yönetimi, el terminali entegrasyonlu mal kabul, depolar arası sevk transferleri ve anlık adres bazlı depo stok kontrolleri.'
-            },
-            {
-                id: 'bayi',
-                title: 'Bayi',
-                icon: 'users',
-                badge: 'B2B Ağı',
-                color: 'indigo',
-                subFeatures: [
-                    'Bayiler',
-                    'Bayi Hesapları',
-                    'Bayi Performansı'
-                ],
-                description: 'Bayileriniz ve distribütörleriniz için özel B2B sipariş portalı altyapısı. Bayi özel fiyat listeleri, borç/alacak limitleri ve satış performansı takibi.'
-            },
-            {
-                id: 'operasyon',
-                title: 'Operasyon',
-                icon: 'activity',
-                badge: 'Süreç Yönetimi',
-                color: 'rose',
-                subFeatures: [
-                    'Operasyon Tanımları',
-                    'Operasyonlar',
-                    'Performans Girişleri'
-                ],
-                description: 'Saha, hizmet veya üretim operasyon aşamalarını esnek şekilde tanımlayın. İş emirlerini yönlendirin ve personel/ekip performans girişlerini anlık ölçün.'
-            },
-            {
-                id: 'raporlama',
-                title: 'Raporlama & Analitik',
-                icon: 'bar-chart-3',
-                badge: 'Karar Destek',
-                color: 'emerald',
-                subFeatures: [
-                    'Dashboard',
-                    'KPI',
-                    'Finans Analizleri',
-                    'Satış Analizleri',
-                    'Stok Analizleri',
-                    'Performans'
-                ],
-                description: 'Yöneticiler için hazırlanmış grafiksel konsolide paneller. Anahtar performans göstergelerini (KPI) canlı takip edin, derinlemesine finans, satış ve stok analizleri çıkartın.'
-            },
-            {
-                id: 'veri-yonetimi',
-                title: 'Veri Yönetimi',
-                icon: 'database',
-                badge: 'Veri Esnekliği',
-                color: 'gray',
-                subFeatures: [
-                    'Excel Import',
-                    'Excel Export'
-                ],
-                description: 'Toplu ürün, cari ve fiyat listesi yüklemeleri için esnek Excel Import araçları. Tüm sistem raporlarını ve listelerini saniyeler içinde Excel formatında dışa aktarın.'
-            },
-            {
-                id: 'kullanici-guvenlik',
-                title: 'Kullanıcı & Güvenlik',
-                icon: 'shield-check',
-                badge: 'Gelişmiş RBAC',
-                color: 'red',
-                subFeatures: [
-                    'Kullanıcılar',
-                    'Roller',
-                    'Yetkiler',
-                    'Audit'
-                ],
-                description: 'Rol tabanlı erişim kontrolü (RBAC). Kullanıcı yetki matrisleri oluşturun, kimin hangi veriyi görebileceğini veya değiştirebileceğini milisaniyelik Audit Logları ile denetleyin.'
-            },
-            {
-                id: 'entegrasyon',
-                title: 'Entegrasyon',
-                icon: 'cpu',
-                badge: 'API & B2B',
-                color: 'blue',
-                subFeatures: [
-                    'API',
-                    'Harici Sistemler',
-                    'Finansal Entegrasyonlar'
-                ],
-                description: 'Banka ekstre entegrasyonları, e-Fatura/e-Arşiv sistemleri, sanal POS ve harici yazılımlar ile RESTful API üzerinden tam çift yönlü senkronizasyon.'
-            }
-        ];
-
-        let selectedModuleIndex = 0;
-
-        // Initialize App on DOM Load
-        window.addEventListener('DOMContentLoaded', () => {
-            renderMockupView('finans');
-            renderModulesNav();
-            renderModuleDetail(0);
-            renderMasterCatalogGrid(completeErpModules);
-            updateRoiCalculation();
-            
-            // Re-initialize Lucide Icons
-            lucide.createIcons();
-
-            // Mobile menu event handler
-            const mobileBtn = document.getElementById('mobile-menu-btn');
-            if (mobileBtn) {
-                mobileBtn.addEventListener('click', () => {
-                    const menu = document.getElementById('mobile-menu');
-                    menu.classList.toggle('hidden');
-                });
-            }
-        });
-
-        function switchMockupTab(tabId) {
-            document.querySelectorAll('.mockup-tab-btn').forEach(btn => {
-                btn.classList.remove('active-tab');
-                btn.classList.add('border-transparent', 'text-slate-400');
-            });
-            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
-            if (activeBtn) {
-                activeBtn.classList.add('active-tab');
-                activeBtn.classList.remove('border-transparent', 'text-slate-400');
-            }
-            renderMockupView(tabId);
-        }
-
-        function renderMockupView(tabId) {
-            const display = document.getElementById('mockup-display-area');
-            if (!display) return;
-
-            if (tabId === 'finans') {
-                display.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="p-4 rounded-xl bg-navy-950 border border-slate-800">
-                            <div class="text-xs text-slate-400 mb-1">Toplam Cari Hacim</div>
-                            <div class="text-2xl font-bold text-white font-mono">₺14,850,200</div>
-                            <div class="text-[10px] text-emerald-400 mt-2 flex items-center gap-1">
-                                <i data-lucide="trending-up" class="w-3 h-3"></i> +12.4% Geçen Aya Göre
-                            </div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-navy-950 border border-slate-800">
-                            <div class="text-xs text-slate-400 mb-1">Banka & Kasa Bakiyesi</div>
-                            <div class="text-2xl font-bold text-blue-400 font-mono">₺3,240,850</div>
-                            <div class="text-[10px] text-slate-400 mt-2">4 Farklı Banka Entegre</div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-navy-950 border border-slate-800">
-                            <div class="text-xs text-slate-400 mb-1">Bekleyen Tahsilatlar</div>
-                            <div class="text-2xl font-bold text-amber-400 font-mono">₺890,000</div>
-                            <div class="text-[10px] text-amber-400 mt-2">Vadesi Gelmiş: 12 Kayıt</div>
-                        </div>
-                    </div>
-                    <div class="p-4 rounded-xl bg-navy-950 border border-slate-800 flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="p-2 rounded-lg bg-blue-500/10 text-blue-400"><i data-lucide="check-circle" class="w-5 h-5"></i></div>
-                            <div>
-                                <div class="text-xs font-bold text-white">Finansal Raporlar & Gelir/Gider Konsolidasyonu</div>
-                                <div class="text-[11px] text-slate-400">Tüm kasalar ve ödemeler anlık konsolide edilir.</div>
-                            </div>
-                        </div>
-                        <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">GÜNCEL</span>
-                    </div>
-                `;
-            } else if (tabId === 'stok') {
-                display.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="p-4 rounded-xl bg-navy-950 border border-slate-800">
-                            <div class="text-xs text-slate-400 mb-1">Aktif Stok Kalemi</div>
-                            <div class="text-2xl font-bold text-white font-mono">18,420 SKU</div>
-                            <div class="text-[10px] text-blue-400 mt-2">3 Ana Depoda Dağıtık</div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-navy-950 border border-slate-800">
-                            <div class="text-xs text-slate-400 mb-1">Kritik Stok Uyarısı</div>
-                            <div class="text-2xl font-bold text-rose-400 font-mono">14 Ürün</div>
-                            <div class="text-[10px] text-rose-400 mt-2">Sipariş Limiti Altında</div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-navy-950 border border-slate-800">
-                            <div class="text-xs text-slate-400 mb-1">Rezerv Edinmiş Stok</div>
-                            <div class="text-2xl font-bold text-purple-400 font-mono">2,150 Kalem</div>
-                            <div class="text-[10px] text-slate-400 mt-2">Seri / Lot Takipli</div>
-                        </div>
-                    </div>
-                    <div class="p-4 rounded-xl bg-navy-950 border border-slate-800 flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400"><i data-lucide="warehouse" class="w-5 h-5"></i></div>
-                            <div>
-                                <div class="text-xs font-bold text-white">Mal Kabul & Depo Transfer Lojistiği</div>
-                                <div class="text-[11px] text-slate-400">El terminalleri ile %100 doğrulukta stok hareketleri.</div>
-                            </div>
-                        </div>
-                        <span class="text-[10px] font-mono text-blue-400 bg-blue-500/10 px-2 py-1 rounded">SEVK HIZLI</span>
-                    </div>
-                `;
-            } else if (tabId === 'bayi') {
-                display.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="p-4 rounded-xl bg-navy-950 border border-slate-800">
-                            <div class="text-xs text-slate-400 mb-1">Aktif Bayi Sayısı</div>
-                            <div class="text-2xl font-bold text-white font-mono">142 Bayi</div>
-                            <div class="text-[10px] text-emerald-400 mt-2">B2B Portalında Aktif</div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-navy-950 border border-slate-800">
-                            <div class="text-xs text-slate-400 mb-1">Bugün Verilen B2B Sipariş</div>
-                            <div class="text-2xl font-bold text-indigo-400 font-mono">84 Sipariş</div>
-                            <div class="text-[10px] text-slate-400 mt-2">Otomatik Onaylı</div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-navy-950 border border-slate-800">
-                            <div class="text-xs text-slate-400 mb-1">Bayi Kredi Limit Oranı</div>
-                            <div class="text-2xl font-bold text-emerald-400 font-mono">%78.2</div>
-                            <div class="text-[10px] text-emerald-400 mt-2">Risk Takibi Aktif</div>
-                        </div>
-                    </div>
-                    <div class="p-4 rounded-xl bg-navy-950 border border-slate-800 flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="p-2 rounded-lg bg-indigo-500/10 text-indigo-400"><i data-lucide="users" class="w-5 h-5"></i></div>
-                            <div>
-                                <div class="text-xs font-bold text-white">Bayi Performansı & Özel Cari Limitler</div>
-                                <div class="text-[11px] text-slate-400">Bayileriniz kendi panelinden sipariş ve hesap takip eder.</div>
-                            </div>
-                        </div>
-                        <span class="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-2 py-1 rounded">B2B ACTIVE</span>
-                    </div>
-                `;
-            } else if (tabId === 'security') {
-                display.innerHTML = `
-                    <div class="p-4 rounded-xl bg-navy-950 border border-slate-800 mb-4 font-mono text-xs space-y-2">
-                        <div class="text-emerald-400">[AUDIT_LOG 2026-09-05 11:42:01] User: 'm.yildiz' updated Cari #4092 -> Old: 15000, New: 18500</div>
-                        <div class="text-blue-400">[RBAC_CHECK] Permission 'FINANCE_WRITE' granted for Role 'Finans Uzmanı'</div>
-                        <div class="text-slate-400">[SESSION] IP 192.168.1.105 authenticated via OAuth2 + 2FA</div>
-                    </div>
-                    <div class="p-4 rounded-xl bg-navy-950 border border-slate-800 flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="p-2 rounded-lg bg-rose-500/10 text-rose-400"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
-                            <div>
-                                <div class="text-xs font-bold text-white">Tam Audit Log ve Rol Bazlı Kısıtlama</div>
-                                <div class="text-[11px] text-slate-400">Her tıklama ve değişiklik kayıtlarda tutulur.</div>
-                            </div>
-                        </div>
-                        <span class="text-[10px] font-mono text-rose-400 bg-rose-500/10 px-2 py-1 rounded">ISO 27001</span>
-                    </div>
-                `;
-            }
-            lucide.createIcons();
-        }
-
-        function renderModulesNav() {
-            const container = document.getElementById('modules-nav-list');
-            if (!container) return;
-            container.innerHTML = '';
-
-            completeErpModules.forEach((mod, idx) => {
-                const isActive = idx === selectedModuleIndex;
-                const btn = document.createElement('button');
-                btn.className = `w-full text-left p-4 rounded-xl transition-all flex items-center justify-between border ${
-                    isActive 
-                        ? 'bg-blue-600/20 border-blue-500 text-white shadow-lg shadow-blue-600/10' 
-                        : 'bg-navy-900 hover:bg-navy-850 border-slate-800/80 text-slate-300'
-                }`;
-                btn.onclick = () => {
-                    selectedModuleIndex = idx;
-                    renderModulesNav();
-                    renderModuleDetail(idx);
-                };
-
-                btn.innerHTML = `
-                    <div class="flex items-center space-x-3">
-                        <div class="p-2.5 rounded-lg ${isActive ? 'bg-blue-600 text-white' : 'bg-navy-950 text-slate-400 border border-slate-800'}">
-                            <i data-lucide="${mod.icon}" class="w-5 h-5"></i>
-                        </div>
-                        <div>
-                            <div class="font-bold text-sm text-white">${mod.title}</div>
-                            <div class="text-[11px] text-slate-400">${mod.subFeatures.length} Alt Özellik Eksiksiz</div>
-                        </div>
-                    </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
-                `;
-                container.appendChild(btn);
-            });
-            lucide.createIcons();
-        }
-
-        function renderModuleDetail(index) {
-            const mod = completeErpModules[index];
-            const container = document.getElementById('module-detail-card');
-            if (!container) return;
-
-            const subItemsHTML = mod.subFeatures.map(item => `
-                <div class="flex items-center space-x-3 p-3.5 rounded-xl bg-navy-950 border border-slate-800 text-xs font-semibold text-slate-200">
-                    <div class="w-2 h-2 rounded-full bg-blue-400"></div>
-                    <span>${item}</span>
-                </div>
-            `).join('');
-
-            container.innerHTML = `
-                <div>
-                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-800">
-                        <div class="flex items-center space-x-4">
-                            <div class="p-3.5 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30">
-                                <i data-lucide="${mod.icon}" class="w-8 h-8"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-white">${mod.title} Modülü</h3>
-                                <p class="text-xs text-blue-400 font-mono tracking-wider">${mod.badge}</p>
-                            </div>
-                        </div>
-                        <button onclick="openDemoModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-wider transition-all">
-                            Demo İnceleme
-                        </button>
-                    </div>
-
-                    <p class="text-slate-300 text-sm leading-relaxed mb-8">
-                        ${mod.description}
-                    </p>
-
-                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Aşağıdaki Alt Özelliklerin Tamamını İçerir:</h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-                        ${subItemsHTML}
-                    </div>
-                </div>
-
-                <div class="pt-6 border-t border-slate-800 flex flex-wrap items-center justify-between text-xs text-slate-400 gap-2">
-                    <span class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> RBAC Yetkilendirme Uyumlu</span>
-                    <span class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Audit Log Takip Edilebilir</span>
-                    <span class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Excel Import / Export Destekli</span>
-                </div>
-            `;
-            lucide.createIcons();
-        }
-
-        function renderMasterCatalogGrid(modulesList) {
-            const container = document.getElementById('master-catalog-grid');
-            if (!container) return;
-            container.innerHTML = '';
-
-            if (modulesList.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 text-sm">Aradığınız kritere uygun modül veya alt özellik bulunamadı.</div>`;
-                return;
-            }
-
-            modulesList.forEach(mod => {
-                const subBadges = mod.subFeatures.map(sf => `
-                    <span class="px-2.5 py-1 rounded-md bg-navy-950 border border-slate-800 text-slate-300 text-[11px] font-medium flex items-center gap-1.5">
-                        <i data-lucide="check" class="w-3 h-3 text-emerald-400"></i> ${sf}
-                    </span>
-                `).join('');
-
-                const card = document.createElement('div');
-                card.className = 'glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col justify-between glass-panel-hover';
-                card.innerHTML = `
-                    <div>
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="p-2.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                                <i data-lucide="${mod.icon}" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-white text-base">${mod.title}</h3>
-                                <span class="text-[10px] text-slate-400 font-mono">${mod.subFeatures.length} Alt Başlık</span>
-                            </div>
-                        </div>
-                        <p class="text-xs text-slate-400 leading-relaxed mb-6">${mod.description}</p>
-                        
-                        <div class="border-t border-slate-800/80 pt-4 mb-4">
-                            <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">Tüm Alt Modüller & Yetenekler:</div>
-                            <div class="flex flex-wrap gap-2">
-                                ${subBadges}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-            lucide.createIcons();
-        }
-
-        function filterMasterCatalog() {
-            const query = document.getElementById('catalog-search-input').value.toLowerCase().trim();
-            if (!query) {
-                renderMasterCatalogGrid(completeErpModules);
-                return;
-            }
-
-            const filtered = completeErpModules.filter(mod => {
-                const titleMatch = mod.title.toLowerCase().includes(query);
-                const descMatch = mod.description.toLowerCase().includes(query);
-                const subMatch = mod.subFeatures.some(sf => sf.toLowerCase().includes(query));
-                return titleMatch || descMatch || subMatch;
-            });
-
-            renderMasterCatalogGrid(filtered);
-        }
-
-        function updateRoiCalculation() {
-            const usersSlider = document.getElementById('roi-users-slider');
-            const rateSlider = document.getElementById('roi-rate-slider');
-
-            if (!usersSlider || !rateSlider) return;
-
-            const users = parseInt(usersSlider.value);
-            const rate = parseInt(rateSlider.value);
-
-            document.getElementById('roi-users-val').textContent = `${users} Kullanıcı`;
-            document.getElementById('roi-rate-val').textContent = `₺${rate} / saat`;
-
-            // Avg 8 hours saved per user monthly
-            const hoursSavedMonthly = users * 8;
-            const costSavedAnnual = hoursSavedMonthly * 12 * rate;
-
-            document.getElementById('roi-hours-result').textContent = `${hoursSavedMonthly.toLocaleString('tr-TR')} Saat`;
-            document.getElementById('roi-cost-result').textContent = `₺${costSavedAnnual.toLocaleString('tr-TR')}`;
-        }
-
-        function openDemoModal() {
-            const modal = document.getElementById('demo-modal');
-            if (modal) {
-                modal.classList.remove('hidden');
-                document.getElementById('modal-form-container').classList.remove('hidden');
-                document.getElementById('modal-success-state').classList.add('hidden');
-            }
-        }
-
-        function closeDemoModal() {
-            const modal = document.getElementById('demo-modal');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function submitDemoForm(e) {
-            e.preventDefault();
-            document.getElementById('modal-form-container').classList.add('hidden');
-            document.getElementById('modal-success-state').classList.remove('hidden');
-        }
+      lucide.createIcons();
     </script>
-</body>
+  </body>
 </html>
